@@ -1,14 +1,11 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
 
 interface ChatMessage {
     role: 'user' | 'assistant';
     content: string;
 }
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 export default function TerminalApp() {
     const [history, setHistory] = useState<string[]>(['Welcome to Terminal. Type "help" for commands or ask me anything about my portfolio!']);
@@ -78,15 +75,21 @@ export default function TerminalApp() {
             setIsLoading(true);
 
             try {
-                const response = await axios.post(`${API_URL}/api/chat`, {
-                    message: userInput,
-                    conversation_history: conversationHistory,
+                const res = await fetch('/api/rag/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: userInput }),
                 });
-
-                const assistantResponse = response.data.response;
+                const data = (await res.json()) as { answer?: string; error?: string };
+                if (!res.ok) {
+                    throw new Error(data.error || res.statusText);
+                }
+                if (typeof data.answer !== 'string') {
+                    throw new Error('Invalid response');
+                }
+                const assistantResponse = data.answer;
                 setHistory((prev) => [...prev, assistantResponse]);
-                
-                // Update conversation history
+
                 const newHistory: ChatMessage[] = [
                     ...conversationHistory,
                     { role: 'user', content: userInput },
@@ -95,7 +98,8 @@ export default function TerminalApp() {
                 setConversationHistory(newHistory);
             } catch (error) {
                 console.error('Error sending message:', error);
-                const errorMessage = 'Sorry, I encountered an error. Please make sure the backend server is running at ' + API_URL;
+                const errorMessage =
+                    'Sorry, I could not reach the assistant. On Vercel, set RAG_API_URL to your Render API URL (e.g. https://my-porfolio-1-2d5n.onrender.com).';
                 setHistory((prev) => [...prev, errorMessage]);
             } finally {
                 setIsLoading(false);
