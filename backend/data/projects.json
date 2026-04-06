@@ -1,0 +1,44 @@
+[
+  {
+    "index": 0,
+    "title": "WAM Studio (Enfield) — Web Architecture Diagram Editor",
+    "href": "",
+    "description": "Collaborative web-based diagram editor for Web Architecture Modeling (WAM) using Next.js App Router and React 19. Diagram canvas, node palette, properties panel, version history, and export with React Flow. REST APIs for CRUD, sharing, comments, and version management. Feature-based architecture with typed APIs, hooks, and React context. Real-time collaboration and export to JSON, PNG, and PDF.",
+    "tags": ["Next.js", "React 19", "TypeScript", "Tailwind CSS", "React Flow", "REST APIs"]
+  },
+  {
+    "index": 1,
+    "title": "Pushka Hub",
+    "href": "",
+    "description": "Cross-platform mobile features with React Native; secure wallet and transaction flows integrated with Ruby on Rails backends. Improved UI/UX on Android and iOS; reduced crashes and improved stability.",
+    "tags": ["React Native", "Ruby on Rails", "Mobile"]
+  },
+  {
+    "index": 2,
+    "title": "PIMdesk — Product Information Management",
+    "href": "",
+    "description": "Vue.js frontend for a PIM platform managing large e-commerce catalogs. Bulk uploads, dynamic attribute mapping, product image management, advanced search, filtering, and tagging. Performance tuning for multi-channel data. Integrations with NestJS and Shopify ecosystems.",
+    "tags": ["Vue.js", "NestJS", "Ruby on Rails", "Shopify", "PIM", "E-commerce"]
+  },
+  {
+    "index": 3,
+    "title": "AAT Wholesale E-Commerce App",
+    "href": "",
+    "description": "Cross-platform wholesale e-commerce app with React Native and Laravel. Product catalog with 10,000+ SKUs, search, filtering, category navigation, wishlists, push notifications, and reviews.",
+    "tags": ["React Native", "Laravel", "E-commerce"]
+  },
+  {
+    "index": 4,
+    "title": "Consumer Information App (SNGPL)",
+    "href": "",
+    "description": "Flutter mobile app for meter reading and consumer complaint management for field teams. Location services for operations; 50,000+ downloads on Google Play. State management with Provider.",
+    "tags": ["Flutter", "Provider", "Mobile", "Field operations"]
+  },
+  {
+    "index": 5,
+    "title": "Automated Personality Prediction System",
+    "href": "",
+    "description": "Machine learning system predicting OCEAN personality traits using deep learning. Processed and analyzed 10,000+ videos with computer vision. Flask API for real-time predictions to a mobile client.",
+    "tags": ["Python", "TensorFlow", "Flask", "OpenCV", "Deep learning"]
+  }
+]

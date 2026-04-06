@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Software Engineer (Frontend-Focused)",
+    "organisation": {
+      "name": "Smart Energy Pays",
+      "href": ""
+    },
+    "date": "Feb 2025 – Present",
+    "location": "Berlin, Germany",
+    "description": "Developed a scalable banking web platform supporting retail, business, and junior products using Next.js 15 App Router, React 19, TypeScript, and Tailwind CSS. Designed maintainable frontend architecture with route groups, shared layouts, and dynamic routes for dashboards and product modules. Implemented complex user flows including KYC/KYB onboarding, crypto wallet management, transfers, subscriptions, and support ticketing. Integrated backend services through a centralized API fetching layer with retry logic and token refresh for authentication, payment, and business APIs. Used Redux Toolkit and TanStack React Query for state and server data. Collaborated with backend and product teams on data contracts, validation, error handling, and real-time updates via WebSockets. Optimized with React Query caching, Turbopack, and next-intl for internationalization."
+  },
+  {
+    "title": "Software Engineer",
+    "organisation": {
+      "name": "Gigalabs (Pvt) Ltd.",
+      "href": ""
+    },
+    "date": "Nov 2022 – Sep 2024",
+    "location": "Lahore, Pakistan",
+    "description": "Developed full-stack features across PIMdesk, Pushka Hub, and enterprise integrations using React, Next.js, TypeScript, Node.js, and NestJS. Built scalable UI components, dashboards, and data-management interfaces for PIMdesk, a Product Information Management platform for large e-commerce product datasets. Implemented backend services and RESTful APIs with NestJS and Flask. Developed data processing workflows for importing, managing, and exporting large product catalogs. Refactored legacy JavaScript into TypeScript. Designed and optimized PostgreSQL schemas and queries. Collaborated with product, design, and backend teams on production issues, features, and reliability. Improved frontend performance through component refactoring, state management, and API integration."
+  }
+]

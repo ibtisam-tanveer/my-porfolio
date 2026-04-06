@@ -1,0 +1,91 @@
+[
+  {
+    "sectionName": "Programming languages",
+    "skills": [
+      { "name": "JavaScript (ES6+)" },
+      { "name": "TypeScript" },
+      { "name": "Python" },
+      { "name": "SQL" }
+    ]
+  },
+  {
+    "sectionName": "Frontend",
+    "skills": [
+      { "name": "React" },
+      { "name": "Next.js (App Router)" },
+      { "name": "Vue.js" },
+      { "name": "Redux Toolkit" },
+      { "name": "TanStack React Query" },
+      { "name": "Tailwind CSS" },
+      { "name": "Material UI" },
+      { "name": "HTML5" },
+      { "name": "CSS3 / SCSS" },
+      { "name": "Responsive design" },
+      { "name": "UI/UX implementation" }
+    ]
+  },
+  {
+    "sectionName": "Backend & APIs",
+    "skills": [
+      { "name": "Node.js" },
+      { "name": "Express.js" },
+      { "name": "NestJS" },
+      { "name": "Flask" },
+      { "name": "Django" },
+      { "name": "REST APIs" },
+      { "name": "JWT authentication" }
+    ]
+  },
+  {
+    "sectionName": "Databases",
+    "skills": [
+      { "name": "PostgreSQL" },
+      { "name": "MongoDB" }
+    ]
+  },
+  {
+    "sectionName": "Mobile",
+    "skills": [
+      { "name": "React Native" },
+      { "name": "Flutter" }
+    ]
+  },
+  {
+    "sectionName": "Developer tools & platforms",
+    "skills": [
+      { "name": "Git" },
+      { "name": "GitHub" },
+      { "name": "GitLab" },
+      { "name": "VS Code" },
+      { "name": "Jira" },
+      { "name": "Postman" },
+      { "name": "Android Studio" },
+      { "name": "Jupyter Notebook" },
+      { "name": "Figma" },
+      { "name": "Vercel" },
+      { "name": "AWS (EC2, S3)" }
+    ]
+  },
+  {
+    "sectionName": "Machine learning",
+    "skills": [
+      { "name": "TensorFlow" },
+      { "name": "Scikit-learn" },
+      { "name": "OpenCV" },
+      { "name": "Pandas" },
+      { "name": "Matplotlib" }
+    ]
+  },
+  {
+    "sectionName": "Practices",
+    "skills": [
+      { "name": "Clean architecture" },
+      { "name": "Design patterns" },
+      { "name": "Debugging" },
+      { "name": "Code review" },
+      { "name": "Unit testing" },
+      { "name": "Agile / Scrum" },
+      { "name": "ClickUp" }
+    ]
+  }
+]
