@@ -1,24 +1,16 @@
 """FastAPI entrypoint for portfolio RAG — used by the Next.js voice assistant."""
 
-from contextlib import asynccontextmanager
-
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from config import settings
-from services.llm_service import LLMService
-from services.vector_store import VectorStore
 
+# Do not import VectorStore / LLMService at module level — they pull in Chroma + embeddings
+# (torch/sentence-transformers) and block process startup for minutes. Render's port health
+# check times out before any port appears. Lazy-init on first /chat instead.
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    app.state.vector_store = VectorStore()
-    app.state.llm_service = LLMService()
-    yield
-
-
-app = FastAPI(title="Portfolio RAG API", lifespan=lifespan)
+app = FastAPI(title="Portfolio RAG API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,6 +25,20 @@ class ChatBody(BaseModel):
     query: str = Field(..., min_length=1, max_length=4000)
 
 
+def _ensure_rag_services(request: Request):
+    """Load heavy ML stack on first chat request so /health can respond immediately."""
+    state = request.app.state
+    if getattr(state, "_rag_loaded", False):
+        return state.vector_store, state.llm_service
+    from services.llm_service import LLMService
+    from services.vector_store import VectorStore
+
+    state.vector_store = VectorStore()
+    state.llm_service = LLMService()
+    state._rag_loaded = True
+    return state.vector_store, state.llm_service
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
@@ -40,8 +46,7 @@ def health():
 
 @app.post("/chat")
 def chat(body: ChatBody, request: Request):
-    vs: VectorStore = request.app.state.vector_store
-    llm: LLMService = request.app.state.llm_service
+    vs, llm = _ensure_rag_services(request)
     try:
         context = vs.query(body.query.strip(), n_results=6)
         if not context:
