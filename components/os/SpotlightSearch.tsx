@@ -11,6 +11,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import {
     Search,
+    Play,
     FolderOpen,
     Globe,
     Code,
@@ -90,6 +91,7 @@ export default function SpotlightSearch() {
             { id: 'terminal', Icon: Terminal, extraSearch: 'shell command line' },
             { id: 'snake', Icon: Gamepad2, extraSearch: 'game arcade play snake retro' },
             { id: 'resume', Icon: FileText, extraSearch: 'pdf cv lebenslauf curriculum' },
+            { id: 'streaming', Icon: Play, extraSearch: 'netflix streaming tv picks recruiter dashboard' },
         ];
 
         const appRows: SpotlightRow[] = apps.map(({ id, Icon, extraSearch }) => {
@@ -108,6 +110,8 @@ export default function SpotlightSearch() {
                               ? t.dock.terminal
                               : id === 'snake'
                                 ? t.dock.snake
+                              : id === 'streaming'
+                                ? t.dock.streaming
                                 : t.about.resumePdfFile;
             return {
                 id,

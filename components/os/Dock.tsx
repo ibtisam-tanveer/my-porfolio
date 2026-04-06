@@ -1,10 +1,10 @@
 'use client';
 
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, type MotionValue } from 'framer-motion';
 import { useRef, useState } from 'react';
 import type React from 'react';
 import { useWindowManager } from './WindowManager';
-import { FolderOpen, Globe, Code, Mail, StickyNote, Calendar, Terminal, Gamepad2 } from 'lucide-react';
+import { FolderOpen, Globe, Code, Mail, StickyNote, Calendar, Terminal, Gamepad2, Clapperboard } from 'lucide-react';
 import { useLanguage } from '@/providers/LanguageProvider';
 
 const iconMap = {
@@ -16,6 +16,7 @@ const iconMap = {
     calendar: Calendar,
     terminal: Terminal,
     snake: Gamepad2,
+    streaming: Clapperboard,
 };
 
 export default function Dock() {
@@ -24,20 +25,24 @@ export default function Dock() {
     const { openWindow, windows } = useWindowManager();
 
     return (
-        <div className="fixed bottom-2 sm:bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 sm:gap-3 rounded-xl sm:rounded-2xl border border-white/20 bg-white/10 px-2 sm:px-4 py-2 sm:py-3 backdrop-blur-2xl overflow-x-auto overflow-y-visible max-w-[calc(100vw-1rem)] sm:max-w-none z-50 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            <DockIcon mouseX={mouseX} id="finder" label={t.dock.finder} IconComponent={iconMap.finder} onClick={() => openWindow('finder')} isOpen={windows.finder.isOpen} />
-            <DockIcon mouseX={mouseX} id="safari" label={t.dock.safari} IconComponent={iconMap.safari} onClick={() => openWindow('safari')} isOpen={windows.safari.isOpen} />
-            <DockIcon mouseX={mouseX} id="vscode" label={t.dock.vscode} IconComponent={iconMap.vscode} onClick={() => openWindow('vscode')} isOpen={windows.vscode.isOpen} />
-            <DockIcon mouseX={mouseX} id="mail" label={t.dock.mail} IconComponent={iconMap.mail} onClick={() => openWindow('mail')} isOpen={windows.mail.isOpen} />
-            <DockIcon mouseX={mouseX} id="notes" label={t.dock.notes} IconComponent={iconMap.notes} onClick={() => openWindow('notes')} isOpen={windows.notes.isOpen} />
+        <div
+            data-tour="dock"
+            className="fixed bottom-2 sm:bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 sm:gap-3 rounded-xl sm:rounded-2xl border border-white/20 bg-white/10 px-2 sm:px-4 py-2 sm:py-3 backdrop-blur-2xl overflow-x-auto overflow-y-visible max-w-[calc(100vw-1rem)] sm:max-w-none z-50 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        >
+            <DockIcon mouseX={mouseX} label={t.dock.finder} IconComponent={iconMap.finder} onClick={() => openWindow('finder')} isOpen={windows.finder.isOpen} />
+            <DockIcon mouseX={mouseX} label={t.dock.safari} IconComponent={iconMap.safari} onClick={() => openWindow('safari')} isOpen={windows.safari.isOpen} />
+            <DockIcon mouseX={mouseX} label={t.dock.vscode} IconComponent={iconMap.vscode} onClick={() => openWindow('vscode')} isOpen={windows.vscode.isOpen} />
+            <DockIcon mouseX={mouseX} label={t.dock.mail} IconComponent={iconMap.mail} onClick={() => openWindow('mail')} isOpen={windows.mail.isOpen} />
+            <DockIcon mouseX={mouseX} label={t.dock.notes} IconComponent={iconMap.notes} onClick={() => openWindow('notes')} isOpen={windows.notes.isOpen} />
             {/* <DockIcon mouseX={mouseX} id="calendar" label="Calendar" IconComponent={iconMap.calendar} onClick={() => { }} isOpen={false} /> */}
-            <DockIcon mouseX={mouseX} id="terminal" label={t.dock.terminal} IconComponent={iconMap.terminal} onClick={() => openWindow('terminal')} isOpen={windows.terminal.isOpen} />
-            <DockIcon mouseX={mouseX} id="snake" label={t.dock.snake} IconComponent={iconMap.snake} onClick={() => openWindow('snake')} isOpen={windows.snake.isOpen} />
+            <DockIcon mouseX={mouseX} label={t.dock.terminal} IconComponent={iconMap.terminal} onClick={() => openWindow('terminal')} isOpen={windows.terminal.isOpen} />
+            <DockIcon mouseX={mouseX} label={t.dock.streaming} IconComponent={iconMap.streaming} onClick={() => openWindow('streaming')} isOpen={windows.streaming.isOpen} />
+            <DockIcon mouseX={mouseX} label={t.dock.snake} IconComponent={iconMap.snake} onClick={() => openWindow('snake')} isOpen={windows.snake.isOpen} />
         </div>
     );
 }
 
-function DockIcon({ mouseX, id, label, IconComponent, onClick, isOpen }: { mouseX: any, id: string, label: string, IconComponent: React.ComponentType<{ size?: number; className?: string }>, onClick: () => void, isOpen: boolean }) {
+function DockIcon({ mouseX, label, IconComponent, onClick, isOpen }: { mouseX: MotionValue<number>, label: string, IconComponent: React.ComponentType<{ size?: number; className?: string }>, onClick: () => void, isOpen: boolean }) {
     const ref = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);
 

@@ -95,6 +95,7 @@ export interface Translations {
         mail: string;
         notes: string;
         terminal: string;
+        streaming: string;
         snake: string;
     };
     snakeGame: {
@@ -349,6 +350,7 @@ export const translations: Record<Language, Translations> = {
             mail: "Mail",
             notes: "Notes",
             terminal: "Terminal",
+            streaming: "Streaming",
             snake: "Snake",
         },
         snakeGame: {
@@ -580,6 +582,7 @@ See Finder → Projects for detailed project write-ups.`,
             mail: "Mail",
             notes: "Notizen",
             terminal: "Terminal",
+            streaming: "Streaming",
             snake: "Snake",
         },
         snakeGame: {
@@ -842,6 +845,7 @@ Details zu Projekten: Finder → Projekte.`,
             mail: "Mail",
             notes: "نوٹس",
             terminal: "ٹرمینل",
+            streaming: "اسٹریمنگ",
             snake: "سنیک",
         },
         snakeGame: {

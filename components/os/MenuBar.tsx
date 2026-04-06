@@ -131,7 +131,10 @@ export default function MenuBar() {
     };
 
     return (
-        <div className="fixed top-0 left-0 right-0 z-50 flex h-8 sm:h-8 w-full items-center justify-between bg-white/20 px-2 sm:px-4 text-xs font-medium text-white backdrop-blur-md">
+        <div
+            data-tour="menubar"
+            className="fixed top-0 left-0 right-0 z-50 flex h-8 sm:h-8 w-full items-center justify-between bg-white/20 px-2 sm:px-4 text-xs font-medium text-white backdrop-blur-md"
+        >
             <div className="flex items-center gap-1 sm:gap-4">
                 <span className="text-sm font-bold"></span>
                 <span className="hidden font-semibold sm:inline">{t.menuBar.portfolio}</span>
@@ -309,6 +312,7 @@ export default function MenuBar() {
                     onClick={openVoiceAssistant}
                     className="p-1 hover:bg-white/10 rounded transition-colors"
                     title={t.assistant.open}
+                    data-tour="assistant-button"
                 >
                     <SiriOrbIcon size={14} className="shrink-0" />
                 </button>
@@ -317,6 +321,7 @@ export default function MenuBar() {
                     onClick={openSpotlight}
                     className="p-1 hover:bg-white/10 rounded transition-colors"
                     title={t.spotlight.title}
+                    data-tour="spotlight-button"
                 >
                     <Search size={14} className="sm:w-4 sm:h-4" />
                 </button>

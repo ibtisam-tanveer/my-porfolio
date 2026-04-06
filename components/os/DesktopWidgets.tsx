@@ -40,6 +40,7 @@ export default function DesktopWidgets() {
 
     return (
         <div
+            data-tour="widgets"
             className="pointer-events-none absolute right-2 top-10 z-20 flex max-w-[min(18rem,calc(100vw-1rem))] flex-col gap-2 sm:right-4 sm:top-12 sm:gap-3"
             aria-label={t.widgets.desktopWidgets}
         >

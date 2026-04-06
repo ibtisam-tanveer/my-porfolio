@@ -17,6 +17,7 @@ export default function Window({ id, children }: WindowProps) {
     const windowState = windows[id];
     const isResume = id === 'resume';
     const isSnake = id === 'snake';
+    const isStreaming = id === 'streaming';
     const dragControls = useDragControls();
     const [isMobile, setIsMobile] = useState(false);
 
@@ -98,7 +99,7 @@ export default function Window({ id, children }: WindowProps) {
 
                     {/* Content */}
                     <div
-                        className={`flex-1 bg-white ${isResume || isSnake ? 'min-h-0 overflow-hidden' : 'overflow-auto'}`}
+                        className={`flex-1 h-full min-h-0 ${isStreaming ? 'bg-black' : 'bg-white'} ${isResume || isSnake ? 'overflow-hidden' : 'overflow-auto'}`}
                     >
                         {children}
                     </div>

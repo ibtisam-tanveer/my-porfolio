@@ -10,7 +10,8 @@ export type AppId =
     | 'terminal'
     | 'notes'
     | 'resume'
-    | 'snake';
+    | 'snake'
+    | 'streaming';
 
 interface WindowState {
     id: AppId;
@@ -42,6 +43,7 @@ const INITIAL_WINDOWS: Record<AppId, WindowState> = {
     notes: { id: 'notes', title: 'Notes', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
     resume: { id: 'resume', title: 'Resume.pdf', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
     snake: { id: 'snake', title: 'Snake', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
+    streaming: { id: 'streaming', title: 'Streaming', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
 };
 
 export function WindowProvider({ children }: { children: React.ReactNode }) {
