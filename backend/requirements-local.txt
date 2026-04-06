@@ -1,0 +1,3 @@
+# Optional: only if EMBEDDING_PROVIDER=local (offline sentence-transformers; pulls torch — not for small Render hosts)
+-r requirements.txt
+sentence-transformers>=3.0.0,<6

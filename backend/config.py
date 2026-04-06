@@ -8,7 +8,11 @@ class Settings(BaseSettings):
     llm_provider: str = "openai"  # openai, anthropic, local
     openai_api_key: str = ""
     anthropic_api_key: str = ""
-    
+
+    # Embeddings: "openai" = API-only (fits Render free tier). "local" = sentence-transformers + torch (heavy).
+    embedding_provider: str = "openai"
+    openai_embedding_model: str = "text-embedding-3-small"
+
     # Vector Database
     vector_db_path: str = "./chroma_db"
     

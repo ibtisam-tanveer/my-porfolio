@@ -61,6 +61,16 @@ def health():
     return {"status": "ok"}
 
 
+@app.get("/chat")
+def chat_get_help():
+    """Browsers only send GET when you open a URL in a tab — chat is POST-only."""
+    return {
+        "error": "Use POST, not GET.",
+        "hint": "Send POST /chat with Content-Type: application/json and body {\"query\": \"your question\"}.",
+        "example_curl": 'curl -X POST https://YOUR_HOST/chat -H "Content-Type: application/json" -d \'{"query":"hello"}\'',
+    }
+
+
 @app.post("/chat")
 def chat(body: ChatBody, request: Request):
     vs, llm = _ensure_rag_services(request)
