@@ -1,6 +1,7 @@
 import json
 import os
-from typing import List, Dict
+from typing import Dict, List, Optional
+
 from services.vector_store import VectorStore
 import uuid
 
@@ -146,19 +147,22 @@ def prepare_documents(portfolio_data: Dict) -> tuple[List[str], List[Dict], List
     return documents, metadatas, ids
 
 
-def ingest_data():
-    """Main function to ingest portfolio data into vector store"""
+def ingest_data(vector_store: Optional[VectorStore] = None):
+    """Load `data/*.json`, chunk, and embed into Chroma (same collection as `embedding_provider`)."""
     print("Loading portfolio data...")
     portfolio_data = load_portfolio_data()
-    
+
     print("Preparing documents...")
     documents, metadatas, ids = prepare_documents(portfolio_data)
-    
+
     print(f"Prepared {len(documents)} document chunks")
-    
+    if not documents:
+        print("Nothing to ingest — check that backend/data/*.json exists and is non-empty.")
+        return
+
     print("Initializing vector store...")
-    vector_store = VectorStore()
-    
+    vector_store = vector_store or VectorStore()
+
     # Clear existing data
     print("Clearing existing data...")
     vector_store.delete_all()

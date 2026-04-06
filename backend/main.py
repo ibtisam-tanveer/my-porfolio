@@ -1,5 +1,7 @@
 """FastAPI entrypoint for portfolio RAG — used by the Next.js voice assistant."""
 
+import logging
+
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -12,6 +14,8 @@ from config import settings
 # check times out before any port appears. Lazy-init on first /chat instead.
 
 app = FastAPI(title="Portfolio RAG API")
+
+logger = logging.getLogger(__name__)
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,6 +39,11 @@ def _ensure_rag_services(request: Request):
     from services.vector_store import VectorStore
 
     state.vector_store = VectorStore()
+    if state.vector_store.count() == 0:
+        from data_ingestion import ingest_data
+
+        logger.info("Vector store is empty; ingesting backend/data/*.json")
+        ingest_data(state.vector_store)
     state.llm_service = LLMService()
     state._rag_loaded = True
     return state.vector_store, state.llm_service

@@ -79,3 +79,7 @@ class VectorStore:
         all_ids = self.collection.get()["ids"]
         if all_ids:
             self.collection.delete(ids=all_ids)
+
+    def count(self) -> int:
+        """Number of documents in the collection."""
+        return self.collection.count()
