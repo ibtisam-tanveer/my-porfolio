@@ -66,7 +66,7 @@ export default function Window({ id, children }: WindowProps) {
                     exit={{ scale: 0, opacity: 0, y: 500, x: 0 }}
                     transition={{ type: 'spring', duration: 0.4, bounce: 0.2 }}
                     style={{ zIndex: windowState.zIndex }}
-                    className="absolute bg-white shadow-2xl overflow-hidden flex flex-col border border-black/10"
+                    className="pointer-events-auto absolute bg-white shadow-2xl overflow-hidden flex flex-col border border-black/10"
                     onMouseDown={() => focusWindow(id)}
                     drag={!windowState.isMaximized && !isMobile}
                     dragControls={dragControls}

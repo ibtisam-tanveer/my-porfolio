@@ -209,7 +209,39 @@ function GitCommitsCard() {
 }
 
 function MusicCard({ t }: { t: { widgets: { nowPlaying: string; onSpotify: string } } }) {
-    const { track, artist, spotifyUrl, imageUrl } = portfolioConfig.music;
+    const [geoSpotifyUrl, setGeoSpotifyUrl] = useState<string | null>(null);
+    const [geoTrack, setGeoTrack] = useState<string | null>(null);
+    const [geoArtist, setGeoArtist] = useState<string | null>(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        (async () => {
+            try {
+                const res = await fetch('/api/geo', { cache: 'no-store' });
+                const data = (await res.json()) as { countryCode?: string };
+                const cc = (data.countryCode ?? '').toUpperCase();
+                const byCountry = portfolioConfig.musicByCountry as
+                    | Record<string, { track: string; artist: string; spotifyUrl: string; imageUrl?: string }>
+                    | undefined;
+                const hit = cc && byCountry ? byCountry[cc] : undefined;
+                if (!cancelled && hit?.spotifyUrl) {
+                    setGeoSpotifyUrl(hit.spotifyUrl);
+                    setGeoTrack(hit.track);
+                    setGeoArtist(hit.artist);
+                }
+            } catch {
+                // ignore; fall back to defaults
+            }
+        })();
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
+    const track = geoTrack ?? portfolioConfig.music.track;
+    const artist = geoArtist ?? portfolioConfig.music.artist;
+    const spotifyUrl = geoSpotifyUrl ?? portfolioConfig.music.spotifyUrl;
+    const imageUrl = portfolioConfig.music.imageUrl;
 
     return (
         <div className={glassPanel}>

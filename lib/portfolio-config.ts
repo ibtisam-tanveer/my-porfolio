@@ -24,6 +24,29 @@ export const portfolioConfig = {
         imageUrl:
             'https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02407bd04707c463bbb3410737',
     },
+    /**
+     * Optional: personalize the “Now playing” card by visitor country.
+     * Keys are ISO 3166-1 alpha-2 codes (e.g. "DE", "US").
+     *
+     * Tip: use playlist URLs (e.g. "Top 50 - Germany") if you want it to always feel fresh.
+     */
+    musicByCountry: {
+        DE: {
+            track: 'Top Hits Germany',
+            artist: 'Spotify Playlist',
+            spotifyUrl: 'https://open.spotify.com/playlist/37i9dQZEVXbJiZcmkrIHGU',
+        },
+        US: {
+            track: 'Top Hits USA',
+            artist: 'Spotify Playlist',
+            spotifyUrl: 'https://open.spotify.com/playlist/37i9dQZEVXbLp5XoPON0wI',
+        },
+        PK: {
+            track: 'Top Hits Pakistan',
+            artist: 'Spotify Playlist',
+            spotifyUrl: 'https://open.spotify.com/playlist/37i9dQZEVXbK4gjvS1FjPY',
+        },
+    },
     /** Recent commits from public Push events; set username to '' to hide the widget */
     github: {
         username: 'ibtisam-tanveer',

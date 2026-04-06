@@ -33,7 +33,7 @@ function DesktopContent() {
 
             <DesktopWidgets />
 
-            <div className="absolute inset-0 top-8 z-40 sm:top-8 bottom-16 sm:bottom-20">
+            <div className="pointer-events-none absolute inset-0 top-8 z-40 sm:top-8 bottom-16 sm:bottom-20">
                 <Window id="finder">
                     <AboutApp />
                 </Window>
