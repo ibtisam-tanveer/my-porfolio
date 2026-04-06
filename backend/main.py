@@ -3,6 +3,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from starlette.responses import Response
 
 from config import settings
 
@@ -37,6 +38,22 @@ def _ensure_rag_services(request: Request):
     state.llm_service = LLMService()
     state._rag_loaded = True
     return state.vector_store, state.llm_service
+
+
+@app.get("/")
+def root():
+    """Fast response so browsers and uptime checks don’t hang on an empty path."""
+    return {
+        "service": "portfolio-rag",
+        "docs": "POST /chat with JSON {\"query\": \"...\"}",
+        "health": "/health",
+    }
+
+
+@app.head("/")
+def root_head():
+    """Render and browsers often probe with HEAD; without this, HEAD / was 404."""
+    return Response(status_code=200)
 
 
 @app.get("/health")
