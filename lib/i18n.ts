@@ -311,9 +311,9 @@ export const translations: Record<Language, Translations> = {
             machineLearning: "Machine learning",
             practices: "Practices",
             title: "Muhammad Ibtisam Tanveer",
-            subtitle: "Frontend Software Engineer | M.Sc. Web Engineering",
+            subtitle: "Software Engineer | M.Sc. Web Engineering",
             profileSummaryText:
-                "Frontend software engineer building scalable web applications with Next.js, React, TypeScript, and Tailwind CSS. I implement complex user flows, integrate backend APIs, and care about maintainable architecture, performance, and accessible UX. Based in Germany; experience across fintech-style banking UIs, PIM/e‑commerce, and mobile (React Native / Flutter).",
+                "Software Engineer building scalable web applications with Next.js, React, TypeScript, and Tailwind CSS. I implement complex user flows, integrate backend APIs, and care about maintainable architecture, performance, and accessible UX. Based in Germany; experience across fintech-style banking UIs, PIM/e‑commerce, and mobile (React Native / Flutter).",
             educationChemnitz: "Technical University of Chemnitz",
             educationChemnitzLocation: "Chemnitz, Saxony, Germany",
             educationChemnitzDegree: "M.Sc. Web Engineering",
@@ -394,7 +394,7 @@ export const translations: Record<Language, Translations> = {
             cvNotes: "CV — Notes",
             startTyping: "Start typing…",
             cvContent: `MUHAMMAD IBTISAM TANVEER
-Frontend Software Engineer | M.Sc. Web Engineering (in progress)
+Software Engineer | M.Sc. Web Engineering (in progress)
 
 CONTACT
 Phone: +49 157 55783296

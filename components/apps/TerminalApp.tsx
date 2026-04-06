@@ -40,7 +40,7 @@ export default function TerminalApp() {
 
             if (cmdLower === 'about') {
                 const response =
-                    'Muhammad Ibtisam Tanveer — Frontend software engineer. Next.js, React 19, TypeScript, Tailwind. Banking/fintech UIs, PIM/e-commerce, React Native & Flutter.';
+                    'Muhammad Ibtisam Tanveer — Software Engineer. Next.js, React 19, TypeScript, Tailwind. Banking/fintech UIs, PIM/e-commerce, React Native & Flutter.';
                 setHistory([...history, `> ${input}`, response]);
                 setInput('');
                 return;

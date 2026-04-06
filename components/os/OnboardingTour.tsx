@@ -11,6 +11,9 @@ type Step = {
 
 const STORAGE_KEY = 'portfolio:onboarding_done_v1';
 
+/** Flip to `true` when you want the first-visit tutorial back. */
+const ONBOARDING_ENABLED = false;
+
 function clamp(n: number, min: number, max: number) {
     return Math.max(min, Math.min(max, n));
 }
@@ -74,6 +77,7 @@ export default function OnboardingTour() {
     const [rect, setRect] = useState<DOMRect | null>(null);
 
     useEffect(() => {
+        if (!ONBOARDING_ENABLED) return;
         try {
             const done = localStorage.getItem(STORAGE_KEY) === '1';
             if (!done) setOpen(true);

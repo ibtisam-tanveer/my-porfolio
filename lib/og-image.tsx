@@ -36,7 +36,7 @@ export function OgImageContent() {
                         Muhammad Ibtisam Tanveer
                     </span>
                     <span style={{ fontSize: 28, color: 'rgba(255,255,255,0.82)', fontWeight: 500 }}>
-                        Frontend Software Engineer
+                        Software Engineer
                     </span>
                 </div>
             </div>

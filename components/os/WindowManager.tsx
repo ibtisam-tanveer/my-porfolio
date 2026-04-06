@@ -35,7 +35,7 @@ interface WindowContextType {
 const WindowContext = createContext<WindowContextType | undefined>(undefined);
 
 const INITIAL_WINDOWS: Record<AppId, WindowState> = {
-    finder: { id: 'finder', title: 'Finder', isOpen: true, isMinimized: false, isMaximized: false, zIndex: 1 },
+    finder: { id: 'finder', title: 'Finder', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
     safari: { id: 'safari', title: 'Safari', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
     vscode: { id: 'vscode', title: 'VS Code', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
     mail: { id: 'mail', title: 'Mail', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
@@ -43,12 +43,12 @@ const INITIAL_WINDOWS: Record<AppId, WindowState> = {
     notes: { id: 'notes', title: 'Notes', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
     resume: { id: 'resume', title: 'Resume.pdf', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
     snake: { id: 'snake', title: 'Snake', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
-    streaming: { id: 'streaming', title: 'Streaming', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
+    streaming: { id: 'streaming', title: 'Streaming', isOpen: true, isMinimized: false, isMaximized: false, zIndex: 1 },
 };
 
 export function WindowProvider({ children }: { children: React.ReactNode }) {
     const [windows, setWindows] = useState<Record<AppId, WindowState>>(INITIAL_WINDOWS);
-    const [activeWindowId, setActiveWindowId] = useState<AppId | null>('finder');
+    const [activeWindowId, setActiveWindowId] = useState<AppId | null>('streaming');
     const [maxZIndex, setMaxZIndex] = useState(1);
 
     const focusWindow = useCallback((id: AppId) => {

@@ -17,7 +17,7 @@ export function getSiteUrl(): URL {
     return new URL('http://localhost:3000');
 }
 
-export const siteTitle = 'Muhammad Ibtisam Tanveer | Frontend Software Engineer';
+export const siteTitle = 'Muhammad Ibtisam Tanveer | Software Engineer';
 
 export const siteDescription =
     'Interactive macOS-style portfolio — Next.js, React, TypeScript. Projects, CV, booking, and contact.';
