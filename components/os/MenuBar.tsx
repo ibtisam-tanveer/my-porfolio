@@ -1,16 +1,33 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { Wifi, Battery, Search, Command, Sun, Volume2, Globe, Calendar, Clock, ExternalLink } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import {
+    Wifi,
+    Battery,
+    Search,
+    Command,
+    Sun,
+    Volume2,
+    Globe,
+    Calendar,
+    Clock,
+    ExternalLink,
+    Lock,
+    Laptop,
+    Settings,
+} from 'lucide-react';
 import SiriOrbIcon from '@/components/os/SiriOrbIcon';
 import { useLanguage } from '@/providers/LanguageProvider';
 import { Language } from '@/lib/i18n';
 import { portfolioConfig } from '@/lib/portfolio-config';
 import { OPEN_SPOTLIGHT_EVENT } from '@/components/os/SpotlightSearch';
 import { OPEN_VOICE_ASSISTANT_EVENT } from '@/components/os/VoiceAssistant';
+import { LOCK_SCREEN_EVENT } from '@/components/os/BootLoginGate';
+import { useWindowManager } from '@/components/os/WindowManager';
 
 export default function MenuBar() {
     const { t, language, setLanguage } = useLanguage();
+    const { openWindow } = useWindowManager();
     const [time, setTime] = useState<string>('');
     const [brightness, setBrightness] = useState<number>(100);
     const [volume, setVolume] = useState<number>(70);
@@ -18,7 +35,9 @@ export default function MenuBar() {
     const [showVolume, setShowVolume] = useState<boolean>(false);
     const [showLanguage, setShowLanguage] = useState<boolean>(false);
     const [showAvailability, setShowAvailability] = useState<boolean>(false);
+    const [showAppleMenu, setShowAppleMenu] = useState<boolean>(false);
     const [localTime, setLocalTime] = useState<string>('');
+    const appleMenuRef = useRef<HTMLDivElement>(null);
     const brightnessRef = useRef<HTMLDivElement>(null);
     const volumeRef = useRef<HTMLDivElement>(null);
     const languageRef = useRef<HTMLDivElement>(null);
@@ -68,6 +87,9 @@ export default function MenuBar() {
             if (availabilityRef.current && !availabilityRef.current.contains(event.target as Node)) {
                 setShowAvailability(false);
             }
+            if (appleMenuRef.current && !appleMenuRef.current.contains(event.target as Node)) {
+                setShowAppleMenu(false);
+            }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -94,6 +116,7 @@ export default function MenuBar() {
         setShowVolume(false);
         setShowLanguage(false);
         setShowAvailability(false);
+        setShowAppleMenu(false);
     };
 
     const toggleVolume = () => {
@@ -101,6 +124,7 @@ export default function MenuBar() {
         setShowBrightness(false);
         setShowLanguage(false);
         setShowAvailability(false);
+        setShowAppleMenu(false);
     };
 
     const toggleLanguage = () => {
@@ -108,6 +132,7 @@ export default function MenuBar() {
         setShowBrightness(false);
         setShowVolume(false);
         setShowAvailability(false);
+        setShowAppleMenu(false);
     };
 
     const toggleAvailability = () => {
@@ -115,6 +140,15 @@ export default function MenuBar() {
         setShowBrightness(false);
         setShowVolume(false);
         setShowLanguage(false);
+        setShowAppleMenu(false);
+    };
+
+    const toggleAppleMenu = () => {
+        setShowAppleMenu(!showAppleMenu);
+        setShowBrightness(false);
+        setShowVolume(false);
+        setShowLanguage(false);
+        setShowAvailability(false);
     };
 
     const handleLanguageChange = (lang: Language) => {
@@ -130,13 +164,93 @@ export default function MenuBar() {
         window.dispatchEvent(new CustomEvent(OPEN_VOICE_ASSISTANT_EVENT));
     };
 
+    const lockScreen = useCallback(() => {
+        window.dispatchEvent(new CustomEvent(LOCK_SCREEN_EVENT));
+    }, []);
+
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && showAppleMenu) {
+                setShowAppleMenu(false);
+                return;
+            }
+            if (e.ctrlKey && e.metaKey && e.key.toLowerCase() === 'q') {
+                const el = e.target as HTMLElement | null;
+                if (el?.closest?.('input, textarea, [contenteditable="true"]')) return;
+                e.preventDefault();
+                lockScreen();
+            }
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [showAppleMenu, lockScreen]);
+
     return (
         <div
             data-tour="menubar"
             className="fixed top-0 left-0 right-0 z-50 flex h-8 sm:h-8 w-full items-center justify-between bg-white/20 px-2 sm:px-4 text-xs font-medium text-white backdrop-blur-md"
         >
             <div className="flex items-center gap-1 sm:gap-4">
-                <span className="text-sm font-bold"></span>
+                <div className="relative" ref={appleMenuRef}>
+                    <button
+                        type="button"
+                        onClick={toggleAppleMenu}
+                        className="rounded px-1.5 py-0.5 text-sm font-bold leading-none text-white hover:bg-white/15 active:bg-white/20"
+                        aria-expanded={showAppleMenu}
+                        aria-haspopup="menu"
+                        aria-label="Apple menu"
+                    >
+                        
+                    </button>
+                    {showAppleMenu ? (
+                        <div
+                            role="menu"
+                            className="absolute left-0 top-full z-[200] mt-1 min-w-[260px] rounded-xl border border-white/12 bg-[#2c2c2e]/95 py-1 text-[13px] text-white shadow-2xl backdrop-blur-xl"
+                        >
+                            <button
+                                type="button"
+                                role="menuitem"
+                                className="flex w-full items-center gap-2.5 px-3 py-1.5 text-left text-[13px] text-white/95 hover:bg-[#0a84ff] hover:text-white"
+                                onClick={() => {
+                                    setShowAppleMenu(false);
+                                    openWindow('resume');
+                                }}
+                            >
+                                <Laptop className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
+                                <span className="flex-1">{t.menuBar.aboutThisPortfolio}</span>
+                            </button>
+                            <div className="my-1 h-px bg-white/10" role="separator" />
+                            <button
+                                type="button"
+                                role="menuitem"
+                                className="flex w-full items-center gap-2.5 px-3 py-1.5 text-left text-[13px] text-white/95 hover:bg-[#0a84ff] hover:text-white"
+                                onClick={() => {
+                                    setShowAppleMenu(false);
+                                    openWindow('vscode');
+                                }}
+                            >
+                                <Settings className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
+                                <span className="flex-1">{t.menuBar.systemSettings}</span>
+                            </button>
+                            <div className="my-1 h-px bg-white/10" role="separator" />
+                            <button
+                                type="button"
+                                role="menuitem"
+                                className="flex w-full items-center gap-2.5 px-3 py-1.5 text-left text-[13px] text-white/95 hover:bg-[#0a84ff] hover:text-white"
+                                onClick={() => {
+                                    setShowAppleMenu(false);
+                                    lockScreen();
+                                }}
+                            >
+                                <Lock className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
+                                <span className="flex-1">{t.menuBar.lockScreen}</span>
+                                <kbd className="pointer-events-none shrink-0 font-mono text-[11px] text-white/55">
+                                    ⌃⌘Q
+                                </kbd>
+                            </button>
+                        </div>
+                    ) : null}
+                </div>
                 <span className="hidden font-semibold sm:inline">{t.menuBar.portfolio}</span>
                 <span className="hidden md:inline">{t.menuBar.file}</span>
                 <span className="hidden md:inline">{t.menuBar.edit}</span>

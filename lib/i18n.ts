@@ -13,6 +13,9 @@ export interface Translations {
         sound: string;
         language: string;
         availability: string;
+        lockScreen: string;
+        aboutThisPortfolio: string;
+        systemSettings: string;
     };
     about: {
         resume: string;
@@ -284,6 +287,9 @@ export const translations: Record<Language, Translations> = {
             sound: "Sound",
             language: "Language",
             availability: "Availability",
+            lockScreen: "Lock screen",
+            aboutThisPortfolio: "About This Portfolio",
+            systemSettings: "System Settings…",
         },
         about: {
             resume: "Resume",
@@ -489,6 +495,9 @@ See Finder → Projects for detailed project write-ups.`,
             sound: "Ton",
             language: "Sprache",
             availability: "Verfügbarkeit",
+            lockScreen: "Sperrbildschirm",
+            aboutThisPortfolio: "Über dieses Portfolio",
+            systemSettings: "Systemeinstellungen…",
         },
         about: {
             resume: "Lebenslauf",
@@ -715,6 +724,9 @@ Details zu Projekten: Finder → Projekte.`,
             sound: "آواز",
             language: "زبان",
             availability: "دستیابی",
+            lockScreen: "لاک اسکرین",
+            aboutThisPortfolio: "اس پورٹ فولیو کے بارے میں",
+            systemSettings: "سسٹم کی ترتیبات…",
         },
         about: {
             resume: "ریزیومے",

@@ -4,6 +4,7 @@ import MenuBar from './MenuBar';
 import Dock from './Dock';
 import Window from './Window';
 import { WindowProvider } from './WindowManager';
+import BootLoginGate from './BootLoginGate';
 import AboutApp from '../apps/AboutApp';
 import ProjectsApp from '../apps/ProjectsApp';
 import ContactApp from '../apps/ContactApp';
@@ -19,6 +20,7 @@ import DesktopWidgets from './DesktopWidgets';
 import SpotlightSearch from './SpotlightSearch';
 import VoiceAssistant from './VoiceAssistant';
 import OnboardingTour from './OnboardingTour';
+import DesktopContextMenu from './DesktopContextMenu';
 
 
 function DesktopContent() {
@@ -29,6 +31,16 @@ function DesktopContent() {
                  backgroundImage: `url(https://4kwallpapers.com/images/wallpapers/macos-monterey-stock-blue-dark-mode-layers-5k-4480x2520-5895.jpg)`,
             
             }}
+            onContextMenu={(e) => {
+                // Only open menu when right-clicking the wallpaper itself.
+                if (e.target !== e.currentTarget) return;
+                e.preventDefault();
+                window.dispatchEvent(
+                    new CustomEvent('portfolio:open-desktop-menu', {
+                        detail: { x: e.clientX, y: e.clientY },
+                    })
+                );
+            }}
         >
       
             <MenuBar />
@@ -38,6 +50,8 @@ function DesktopContent() {
             <VoiceAssistant />
 
             <DesktopWidgets />
+
+            <DesktopContextMenu />
 
             <OnboardingTour />
 
@@ -91,7 +105,9 @@ function DesktopContent() {
 export default function Desktop() {
     return (
         <WindowProvider>
-            <DesktopContent />
+            <BootLoginGate>
+                <DesktopContent />
+            </BootLoginGate>
         </WindowProvider>
     );
 }

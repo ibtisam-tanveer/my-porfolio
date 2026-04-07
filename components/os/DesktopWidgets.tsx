@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Calendar, Clock, ExternalLink, Github, Music2 } from 'lucide-react';
+import { Calendar, Clock, ExternalLink, Github, Music2, X } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '@/providers/LanguageProvider';
 import { portfolioConfig } from '@/lib/portfolio-config';
 import type { Language } from '@/lib/i18n';
@@ -15,6 +16,34 @@ const glassPanel =
     `rounded-2xl border border-white/25 bg-white/20 p-3 shadow-lg backdrop-blur-xl ring-1 ring-white/20 sm:p-4 ${glassLegibleText}`;
 
 const iconOnGlass = 'shrink-0 text-white drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.85)]';
+
+type WidgetId = 'availability' | 'music' | 'commits';
+type WidgetPos = { x: number; y: number };
+type WidgetLayout = Record<WidgetId, WidgetPos>;
+type WidgetVisibility = Record<WidgetId, boolean>;
+
+const WIDGETS_STORAGE_KEY = 'portfolio:widgets:v2';
+const WIDGETS_CHANGED_EVENT = 'portfolio:widgets-changed';
+const WIDGETS_RESET_EVENT = 'portfolio:widgets-reset';
+
+function clamp(n: number, min: number, max: number) {
+    return Math.max(min, Math.min(max, n));
+}
+
+function getDefaultLayout(): WidgetLayout {
+    const right = typeof window !== 'undefined' ? Math.max(12, window.innerWidth - 320) : 980;
+    const top = 56;
+    const gap = 14;
+    return {
+        availability: { x: right, y: top },
+        music: { x: right, y: top + 162 + gap },
+        commits: { x: right, y: top + 162 + gap + 150 + gap },
+    };
+}
+
+function getDefaultVisibility(): WidgetVisibility {
+    return { availability: true, music: true, commits: true };
+}
 
 function relativeCommitTime(iso: string, language: Language): string {
     const locale = language === 'de' ? 'de-DE' : language === 'ur' ? 'ur-PK' : 'en-US';
@@ -37,25 +66,250 @@ function truncateCommitMessage(s: string, max = 56): string {
 
 export default function DesktopWidgets() {
     const { t } = useLanguage();
+    const [layout, setLayout] = useState<WidgetLayout>(() => getDefaultLayout());
+    const [visible, setVisible] = useState<WidgetVisibility>(() => getDefaultVisibility());
+    const widgetEls = useState<Record<WidgetId, HTMLDivElement | null>>({
+        availability: null,
+        music: null,
+        commits: null,
+    })[0];
+
+    const commitsEnabled = Boolean(portfolioConfig.github.username);
+
+    useEffect(() => {
+        try {
+            const raw = localStorage.getItem(WIDGETS_STORAGE_KEY);
+            if (!raw) return;
+            const parsed = JSON.parse(raw) as {
+                layout?: Partial<WidgetLayout>;
+                visible?: Partial<WidgetVisibility>;
+            };
+            if (parsed.layout) {
+                setLayout((prev) => ({
+                    availability: parsed.layout?.availability ?? prev.availability,
+                    music: parsed.layout?.music ?? prev.music,
+                    commits: parsed.layout?.commits ?? prev.commits,
+                }));
+            }
+            if (parsed.visible) {
+                setVisible((prev) => ({
+                    availability: parsed.visible?.availability ?? prev.availability,
+                    music: parsed.visible?.music ?? prev.music,
+                    commits: parsed.visible?.commits ?? prev.commits,
+                }));
+            }
+        } catch {
+            // ignore
+        }
+    }, []);
+
+    useEffect(() => {
+        const onChanged = () => {
+            try {
+                const raw = localStorage.getItem(WIDGETS_STORAGE_KEY);
+                if (!raw) return;
+                const parsed = JSON.parse(raw) as {
+                    visible?: Partial<WidgetVisibility>;
+                    layout?: Partial<WidgetLayout>;
+                };
+                if (parsed.visible) {
+                    setVisible((prev) => ({
+                        availability: parsed.visible?.availability ?? prev.availability,
+                        music: parsed.visible?.music ?? prev.music,
+                        commits: parsed.visible?.commits ?? prev.commits,
+                    }));
+                }
+                if (parsed.layout) {
+                    setLayout((prev) => ({
+                        availability: parsed.layout?.availability ?? prev.availability,
+                        music: parsed.layout?.music ?? prev.music,
+                        commits: parsed.layout?.commits ?? prev.commits,
+                    }));
+                }
+            } catch {
+                // ignore
+            }
+        };
+        window.addEventListener(WIDGETS_CHANGED_EVENT, onChanged);
+        return () => window.removeEventListener(WIDGETS_CHANGED_EVENT, onChanged);
+    }, []);
+
+    useEffect(() => {
+        const onReset = () => {
+            // Restore visibility defaults and compute a neat right-side stack based on real rendered sizes.
+            const nextVisible: WidgetVisibility = {
+                availability: true,
+                music: true,
+                commits: commitsEnabled,
+            };
+            setVisible(nextVisible);
+
+            const compute = () => {
+                const vw = window.innerWidth;
+                let y = 56;
+                const gap = 14;
+                const nextLayout: WidgetLayout = { ...layout };
+
+                (['availability', 'music', 'commits'] as WidgetId[]).forEach((id) => {
+                    if (!nextVisible[id]) return;
+                    const el = widgetEls[id];
+                    const rect = el?.getBoundingClientRect();
+                    const w = rect?.width ?? 288; // ~18rem
+                    const h = rect?.height ?? 150;
+                    const x = Math.max(12, vw - w - 16);
+                    nextLayout[id] = { x, y };
+                    y += h + gap;
+                });
+
+                setLayout(nextLayout);
+                try {
+                    localStorage.setItem(WIDGETS_STORAGE_KEY, JSON.stringify({ layout: nextLayout, visible: nextVisible }));
+                } catch {
+                    // ignore
+                }
+                window.dispatchEvent(new CustomEvent(WIDGETS_CHANGED_EVENT));
+            };
+
+            // Wait for the DOM to reflect visibility changes, then measure.
+            requestAnimationFrame(() => requestAnimationFrame(compute));
+        };
+
+        window.addEventListener(WIDGETS_RESET_EVENT, onReset);
+        return () => window.removeEventListener(WIDGETS_RESET_EVENT, onReset);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [commitsEnabled]);
+
+    useEffect(() => {
+        try {
+            localStorage.setItem(WIDGETS_STORAGE_KEY, JSON.stringify({ layout, visible }));
+        } catch {
+            // ignore
+        }
+    }, [layout, visible]);
 
     return (
-        <div
-            data-tour="widgets"
-            className="pointer-events-none absolute right-2 top-10 z-20 flex max-w-[min(18rem,calc(100vw-1rem))] flex-col gap-2 sm:right-4 sm:top-12 sm:gap-3"
-            aria-label={t.widgets.desktopWidgets}
-        >
-            <div className="pointer-events-auto">
-                <AvailabilityCard />
-            </div>
-            <div className="pointer-events-auto">
-                <MusicCard t={t} />
-            </div>
-            {portfolioConfig.github.username ? (
-                <div className="pointer-events-auto">
+        <div data-tour="widgets" className="pointer-events-none absolute inset-0 z-20" aria-label={t.widgets.desktopWidgets}>
+            {visible.availability ? (
+                <DraggableWidget
+                    id="availability"
+                    title={t.widgets.availability}
+                    pos={layout.availability}
+                    onPosChange={(pos) => setLayout((prev) => ({ ...prev, availability: pos }))}
+                    onRemove={() => setVisible((prev) => ({ ...prev, availability: false }))}
+                    setEl={(el) => {
+                        widgetEls.availability = el;
+                    }}
+                >
+                    <AvailabilityCard />
+                </DraggableWidget>
+            ) : null}
+
+            {visible.music ? (
+                <DraggableWidget
+                    id="music"
+                    title={t.widgets.nowPlaying}
+                    pos={layout.music}
+                    onPosChange={(pos) => setLayout((prev) => ({ ...prev, music: pos }))}
+                    onRemove={() => setVisible((prev) => ({ ...prev, music: false }))}
+                    setEl={(el) => {
+                        widgetEls.music = el;
+                    }}
+                >
+                    <MusicCard t={t} />
+                </DraggableWidget>
+            ) : null}
+
+            {commitsEnabled && visible.commits ? (
+                <DraggableWidget
+                    id="commits"
+                    title={t.widgets.recentCommits}
+                    pos={layout.commits}
+                    onPosChange={(pos) => setLayout((prev) => ({ ...prev, commits: pos }))}
+                    onRemove={() => setVisible((prev) => ({ ...prev, commits: false }))}
+                    setEl={(el) => {
+                        widgetEls.commits = el;
+                    }}
+                >
                     <GitCommitsCard />
-                </div>
+                </DraggableWidget>
             ) : null}
         </div>
+    );
+}
+
+function DraggableWidget({
+    id,
+    title,
+    pos,
+    onPosChange,
+    onRemove,
+    setEl,
+    children,
+}: {
+    id: WidgetId;
+    title: string;
+    pos: WidgetPos;
+    onPosChange: (pos: WidgetPos) => void;
+    onRemove: () => void;
+    setEl: (el: HTMLDivElement | null) => void;
+    children: React.ReactNode;
+}) {
+    const [showControls, setShowControls] = useState(false);
+    const holdTimerRef = useState<{ t: number | null }>({ t: null })[0];
+
+    return (
+        <motion.div
+            data-widget-id={id}
+            className="pointer-events-auto absolute w-[min(18rem,calc(100vw-1rem))] group"
+            style={{ x: pos.x, y: pos.y }}
+            ref={(el) => setEl(el)}
+            drag
+            dragMomentum={false}
+            dragElastic={0.06}
+            onDragEnd={(_, info) => {
+                const vw = window.innerWidth;
+                const vh = window.innerHeight;
+                const nextX = clamp(pos.x + info.offset.x, 8, vw - 280);
+                const nextY = clamp(pos.y + info.offset.y, 40, vh - 140);
+                onPosChange({ x: nextX, y: nextY });
+            }}
+            onPointerDown={() => {
+                // Mobile: press-and-hold to show controls.
+                if (holdTimerRef.t) window.clearTimeout(holdTimerRef.t);
+                holdTimerRef.t = window.setTimeout(() => setShowControls(true), 420);
+            }}
+            onPointerUp={() => {
+                if (holdTimerRef.t) window.clearTimeout(holdTimerRef.t);
+                holdTimerRef.t = null;
+            }}
+            onPointerCancel={() => {
+                if (holdTimerRef.t) window.clearTimeout(holdTimerRef.t);
+                holdTimerRef.t = null;
+            }}
+            onPointerMove={() => {
+                // If user starts dragging, don't treat it as a long-press.
+                if (holdTimerRef.t) {
+                    window.clearTimeout(holdTimerRef.t);
+                    holdTimerRef.t = null;
+                }
+            }}
+            onMouseEnter={() => setShowControls(true)}
+            onMouseLeave={() => setShowControls(false)}
+        >
+            <div className="relative">
+                <button
+                    type="button"
+                    onClick={onRemove}
+                    aria-label={`Remove ${title} widget`}
+                    className={`absolute right-2 top-2 z-10 grid h-7 w-7 place-items-center rounded-xl border border-white/15 bg-black/25 text-white/85 backdrop-blur-md hover:bg-black/35 hover:text-white transition-opacity ${
+                        showControls ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                    }`}
+                >
+                    <X className="h-4 w-4" aria-hidden />
+                </button>
+                {children}
+            </div>
+        </motion.div>
     );
 }
 
