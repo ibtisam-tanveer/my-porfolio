@@ -13,6 +13,7 @@ import NotesApp from '../apps/NotesApp';
 import ResumeApp from '../apps/ResumeApp';
 import SnakeApp from '../apps/SnakeApp';
 import StreamingApp from '../apps/StreamingApp';
+
 import InstaBlogApp from '../apps/InstaBlogApp';
 import DesktopWidgets from './DesktopWidgets';
 import SpotlightSearch from './SpotlightSearch';
