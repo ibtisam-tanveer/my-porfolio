@@ -40,5 +40,12 @@
     "href": "",
     "description": "Machine learning system predicting OCEAN personality traits using deep learning. Processed and analyzed 10,000+ videos with computer vision. Flask API for real-time predictions to a mobile client.",
     "tags": ["Python", "TensorFlow", "Flask", "OpenCV", "Deep learning"]
+  },
+  {
+    "index": 6,
+    "title": "InstaBlog — Blog as Reels/Stories",
+    "href": "",
+    "description": "Instagram-style app concept to present blog posts as vertical reels and tappable stories. Mobile-first feed, story viewer, captions, tags, and share-ready links. Designed as a lightweight content layer on top of a blog/CMS.",
+    "tags": ["Reels", "Stories", "Mobile-first", "Next.js", "UX"]
   }
 ]

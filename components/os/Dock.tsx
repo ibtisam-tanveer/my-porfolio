@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, typ
 import { useRef, useState } from 'react';
 import type React from 'react';
 import { useWindowManager } from './WindowManager';
-import { FolderOpen, Globe, Code, Mail, StickyNote, Calendar, Terminal, Gamepad2, Clapperboard } from 'lucide-react';
+import { FolderOpen, Globe, Code, Mail, StickyNote, Calendar, Terminal, Gamepad2, Clapperboard, Camera } from 'lucide-react';
 import { useLanguage } from '@/providers/LanguageProvider';
 
 const iconMap = {
@@ -17,6 +17,7 @@ const iconMap = {
     terminal: Terminal,
     snake: Gamepad2,
     streaming: Clapperboard,
+    instablog: Camera,
 };
 
 export default function Dock() {
@@ -36,6 +37,7 @@ export default function Dock() {
             <DockIcon mouseX={mouseX} label={t.dock.notes} IconComponent={iconMap.notes} onClick={() => openWindow('notes')} isOpen={windows.notes.isOpen} />
             {/* <DockIcon mouseX={mouseX} id="calendar" label="Calendar" IconComponent={iconMap.calendar} onClick={() => { }} isOpen={false} /> */}
             <DockIcon mouseX={mouseX} label={t.dock.terminal} IconComponent={iconMap.terminal} onClick={() => openWindow('terminal')} isOpen={windows.terminal.isOpen} />
+            <DockIcon mouseX={mouseX} label={t.dock.instablog} IconComponent={iconMap.instablog} onClick={() => openWindow('instablog')} isOpen={windows.instablog.isOpen} />
             <DockIcon mouseX={mouseX} label={t.dock.streaming} IconComponent={iconMap.streaming} onClick={() => openWindow('streaming')} isOpen={windows.streaming.isOpen} />
             <DockIcon mouseX={mouseX} label={t.dock.snake} IconComponent={iconMap.snake} onClick={() => openWindow('snake')} isOpen={windows.snake.isOpen} />
         </div>

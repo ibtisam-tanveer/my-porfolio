@@ -97,6 +97,7 @@ export interface Translations {
         terminal: string;
         streaming: string;
         snake: string;
+        instablog: string;
     };
     snakeGame: {
         score: string;
@@ -352,6 +353,7 @@ export const translations: Record<Language, Translations> = {
             terminal: "Terminal",
             streaming: "Streaming",
             snake: "Snake",
+            instablog: "InstaBlog",
         },
         snakeGame: {
             score: "Score",
@@ -584,6 +586,7 @@ See Finder → Projects for detailed project write-ups.`,
             terminal: "Terminal",
             streaming: "Streaming",
             snake: "Snake",
+            instablog: "InstaBlog",
         },
         snakeGame: {
             score: "Punkte",
@@ -847,6 +850,7 @@ Details zu Projekten: Finder → Projekte.`,
             terminal: "ٹرمینل",
             streaming: "اسٹریمنگ",
             snake: "سنیک",
+            instablog: "InstaBlog",
         },
         snakeGame: {
             score: "اسکور",

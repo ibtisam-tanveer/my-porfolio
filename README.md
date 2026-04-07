@@ -35,7 +35,7 @@ For detailed setup instructions, see **[SETUP.md](./SETUP.md)**.
 ### 🖥️ macOS-Inspired Interface
 - Desktop environment with dock and menu bar
 - Window management system
-- Multiple apps: About, Projects, Contact, Terminal, Notes, Safari
+- Multiple apps: About, Projects, Contact, Terminal, Notes, Safari, Streaming, Snake, InstaBlog (Blog as Reels/Stories)
 
 ### 💬 Terminal App with RAG Chat
 - **Built-in commands**: `help`, `clear`, `about`, `whoami`, `projects`, `contact`

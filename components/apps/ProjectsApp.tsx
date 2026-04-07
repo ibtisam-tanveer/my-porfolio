@@ -54,6 +54,13 @@ const projects = [
             '# OCEAN personality prediction — TensorFlow + OpenCV\n# 10k+ videos processed; Flask API for mobile inference',
         tags: ['Python', 'TensorFlow', 'Flask', 'OpenCV'],
     },
+    {
+        id: 8,
+        name: 'instablog-reels-stories.tsx',
+        description:
+            '// InstaBlog — show blog posts as Reels/Stories\n// Vertical reel feed + tap-through story viewer for blog content\n// Captions, tags, share links; mobile-first UX',
+        tags: ['Reels', 'Stories', 'Next.js', 'UX', 'Mobile-first'],
+    },
 ];
 
 export default function ProjectsApp() {
@@ -129,19 +136,19 @@ export default function ProjectsApp() {
                         </div>
                         <div className="flex-1 text-xs sm:text-sm">
                             <div className="text-[#6a9955] mb-4 whitespace-pre-wrap">{activeFile.description}</div>
-                            <div className="text-[#569cd6]">import</div> <span className="text-[#9cdcfe]">React</span> <div className="text-[#569cd6]">from</div> <span className="text-[#ce9178]">'react'</span>;
+                            <div className="text-[#569cd6]">import</div> <span className="text-[#9cdcfe]">React</span> <div className="text-[#569cd6]">from</div> <span className="text-[#ce9178]">&apos;react&apos;</span>;
                             <br />
                             <div className="text-[#569cd6]">export default function</div> <span className="text-[#dcdcaa]">{activeFile.name.split('.')[0].replace(/-/g, '')}</span>() {'{'}
                             <br />
                             &nbsp;&nbsp;<div className="text-[#569cd6]">return</div> (
                             <br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="text-[#4ec9b0]">div</span> className=<span className="text-[#ce9178]">'project-card'</span>&gt;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="text-[#4ec9b0]">div</span> className=<span className="text-[#ce9178]">&apos;project-card&apos;</span>&gt;
                             <br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="text-[#4ec9b0]">h1</span>&gt;{activeFile.name}&lt;/<span className="text-[#4ec9b0]">h1</span>&gt;
                             <br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{'{/* Tech Stack */}'}
                             <br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="text-[#4ec9b0]">div</span> className=<span className="text-[#ce9178]">'tags'</span>&gt;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="text-[#4ec9b0]">div</span> className=<span className="text-[#ce9178]">&apos;tags&apos;</span>&gt;
                             <br />
                             {activeFile.tags.map(tag => (
                                 <div key={tag}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span className="text-[#4ec9b0]">span</span>&gt;{tag}&lt;/<span className="text-[#4ec9b0]">span</span>&gt;</div>

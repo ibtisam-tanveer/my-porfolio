@@ -25,6 +25,7 @@ import {
     Calendar,
     AtSign,
     Gamepad2,
+    Camera,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useLanguage } from '@/providers/LanguageProvider';
@@ -92,6 +93,7 @@ export default function SpotlightSearch() {
             { id: 'snake', Icon: Gamepad2, extraSearch: 'game arcade play snake retro' },
             { id: 'resume', Icon: FileText, extraSearch: 'pdf cv lebenslauf curriculum' },
             { id: 'streaming', Icon: Play, extraSearch: 'netflix streaming tv picks recruiter dashboard' },
+            { id: 'instablog', Icon: Camera, extraSearch: 'instagram reels stories blog short video feed' },
         ];
 
         const appRows: SpotlightRow[] = apps.map(({ id, Icon, extraSearch }) => {
@@ -112,6 +114,8 @@ export default function SpotlightSearch() {
                                 ? t.dock.snake
                               : id === 'streaming'
                                 ? t.dock.streaming
+                                : id === 'instablog'
+                                  ? t.dock.instablog
                                 : t.about.resumePdfFile;
             return {
                 id,

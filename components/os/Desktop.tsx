@@ -13,6 +13,7 @@ import NotesApp from '../apps/NotesApp';
 import ResumeApp from '../apps/ResumeApp';
 import SnakeApp from '../apps/SnakeApp';
 import StreamingApp from '../apps/StreamingApp';
+import InstaBlogApp from '../apps/InstaBlogApp';
 import DesktopWidgets from './DesktopWidgets';
 import SpotlightSearch from './SpotlightSearch';
 import VoiceAssistant from './VoiceAssistant';
@@ -74,6 +75,10 @@ function DesktopContent() {
 
                 <Window id="streaming">
                     <StreamingApp />
+                </Window>
+
+                <Window id="instablog">
+                    <InstaBlogApp />
                 </Window>
             </div>
 
